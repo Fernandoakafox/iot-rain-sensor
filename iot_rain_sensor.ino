@@ -73,8 +73,6 @@ void conectaWiFi();     //Faz conexão com WiFi
 void logo();            //Logo Rain IOT
 void sensorChuva();     //Sensor de Chuva
 
-
-
 // Setup------------------------------------------------------------------------------------------
 void setup() 
 {
@@ -153,8 +151,8 @@ void conetaBroker() //faz conexão com o Broker, e reconecta caso caia a conexã
 
 void sensorChuva()
 {
-  Serial.println(analogRead(pinSensorA));
-  if ((analogRead(pinSensorA) < 3600 ) && (clima != 1 ))
+  //O sensor de chuva utilizado possui variação da entrada analogica de 4095 á 0, quanto menor o valor, mais umido o sensor esta.
+  if ((analogRead(pinSensorA) < 3600 ) && (clima != 1 )) //Se estiver chovendo
   {
     clima = 1;
     if (client.publish(TOPIC_PUBLISH, "1", true))
@@ -163,7 +161,7 @@ void sensorChuva()
     }
     delay(3000);
   }
-  else if ((analogRead(pinSensorA) > 3950 ) && (clima != 0 ))
+  else if ((analogRead(pinSensorA) > 3950 ) && (clima != 0 )) //Se não estiver chovendo
   {
     clima = 0;
     if (client.publish(TOPIC_PUBLISH, "0", true))
@@ -174,7 +172,7 @@ void sensorChuva()
   }
 }
 
-void logo()
+void logo()//Logo do projeto
 {
   Serial.println("                                                     ");
   Serial.println("//  _____          _          _____   ____   _______ ");
